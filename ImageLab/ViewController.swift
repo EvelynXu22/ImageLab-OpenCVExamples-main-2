@@ -90,9 +90,11 @@ class ViewController: UIViewController   {
                              withBounds: retImage.extent, // the first face bounds
                              andContext: self.videoManager.getCIContext())
         //set bool value of two button when place/remove
-        temp = self.bridge.processFinger()
-//        print(temp)
+        temp = !self.bridge.processFinger()
+        print("temp",temp)
+        
         DispatchQueue.main.async{
+
             self.toggleFlash.isEnabled = temp
             self.toggleCamera.isEnabled = temp
             print("temp in processImageSwift",self.toggleFlash.isEnabled)

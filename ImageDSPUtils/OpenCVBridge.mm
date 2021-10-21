@@ -35,6 +35,8 @@ int i = 100;
 //}
 
 -(bool)processFinger{
+
+//    bool isTorchEnabled;
     cv::Mat image_copy;
     
     // fine, adding scoping to case statements to get rid of jump errors
@@ -43,34 +45,31 @@ int i = 100;
     float greenValue[100];
     float blueValue[100];
     Scalar avgPixelIntensity;
-    
-    float red = avgPixelIntensity.val[0];
-    float green = avgPixelIntensity.val[1];
-    float blue = avgPixelIntensity.val[2];
+    int threshold = 30;
 
     cvtColor(_image, image_copy, CV_BGRA2BGR); // get rid of alpha for processing
     avgPixelIntensity = cv::mean( image_copy );
+    float red = avgPixelIntensity.val[0];
+    float green = avgPixelIntensity.val[1];
+    float blue = avgPixelIntensity.val[2];
     sprintf(text,"Avg. R: %.0f, G: %.0f, B: %.0f", red,green,blue);
     
-    cv::putText(_image, text, cv::Point(80, 100), FONT_HERSHEY_PLAIN, 0.75, Scalar::all(255), 1, 2);
     
-    //Test
-//    printf(text,"Avg. R: %.0f, G: %.0f, B: %.0f", avgPixelIntensity.val[0],avgPixelIntensity.val[1],avgPixelIntensity.val[2]);
+    cv::putText(_image, text, cv::Point(80, 100), FONT_HERSHEY_PLAIN, 0.75, Scalar::all(255), 1, 2);
 
     
     if(i<100){
-        if(red <= 20 || green <= 20 || blue <= 20){
+        if(red <= threshold || green <= threshold || blue <= threshold){
             i++;
             redValue[i] = red;
             greenValue[i] = green;
             blueValue[i] = blue;
-            std::cout << redValue[i];
-            std::cout << "i" << i;
+
         }
 
     }
     else{
-        if(red <= 20 || green <= 20 || blue <= 20){
+        if(red <= threshold || green <= threshold || blue <= threshold){
             sprintf(text, "Camera has been covered!!");
             cv::putText(_image, text, cv::Point(80, 300), FONT_HERSHEY_PLAIN, 0.75, Scalar::all(255), 1, 2);
             printf("true");
@@ -80,7 +79,7 @@ int i = 100;
         }
         
     }
-    printf("true");
+    printf("false");
     return false;
 
 }
